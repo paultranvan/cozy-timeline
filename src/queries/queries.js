@@ -55,6 +55,29 @@ export const buildAggregatedTimeseriesQueryByAccountId = ({
   }
 })
 
+export const buildAggregatedTimeseriesQuery = ({ accountId, limitBy }) => ({
+  definition: Q(GEOJSON_DOCTYPE)
+    .where({
+      'cozyMetadata.sourceAccount': accountId
+    })
+    .partialIndex({
+      aggregation: {
+        $exists: true
+      }
+    })
+    .indexFields(['cozyMetadata.sourceAccount', 'startDate', 'endDate'])
+    .sortBy([
+      { 'cozyMetadata.sourceAccount': 'desc' },
+      { startDate: 'desc' },
+      { endDate: 'desc' }
+    ])
+    .limitBy(limitBy),
+  options: {
+    as: `${GEOJSON_DOCTYPE}/sourceAccount/${accountId}/limitedBy/${limitBy}/all`,
+    fetchPolicy: CozyClient.fetchPolicies.olderThan(older30s)
+  }
+})
+
 export const buildTimeseriesQueryByAccountIdAndDate = ({
   accountId,
   date = null
@@ -409,5 +432,20 @@ export const buildAccountQueryByLogin = login => ({
     .select(['auth.login', 'account_type']),
   options: {
     as: `${ACCOUNTS_DOCTYPE}/account_type/login/${login}`
+  }
+})
+
+export const buildPhotosQueryByDatetime = ({ limitBy = 100 }) => ({
+  definition: Q(FILES_DOCTYPE)
+    .partialIndex({
+      class: 'image',
+      trashed: false
+    })
+    .indexFields(['metadata.datetime'])
+    .sortBy([{ 'metadata.datetime': 'desc' }])
+    .limitBy(limitBy),
+  options: {
+    as: `${FILES_DOCTYPE}/images`,
+    fetchPolicy: CozyClient.fetchPolicies.olderThan(older30s)
   }
 })

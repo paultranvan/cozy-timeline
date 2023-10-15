@@ -15,6 +15,7 @@ import Trips from 'src/components/Views/Trips'
 import flag from 'cozy-flags'
 
 import FilesViewerWithQuery from './FileViewerWithQuery'
+import Timeline from './TimelineTab/Timeline'
 
 const OutletWrapper = ({ Component }) => (
   <>
@@ -61,9 +62,19 @@ const AppRouter = () => {
           </Route>
 
           <Route
+            path="timeline"
+            element={<OutletWrapper Component={Timeline} />}
+          >
+            <Route
+              path="photo/:fileId"
+              element={<OutletWrapper Component={FilesViewerWithQuery} />}
+            ></Route>
+          </Route>
+
+          <Route
             path="analysis/modes"
             element={<OutletWrapper Component={ModeAnalysis} />}
-          />
+          ></Route>
           <Route
             path="analysis/modes/:mode"
             element={<OutletWrapper Component={ModeAnalysis} />}

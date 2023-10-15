@@ -5,6 +5,7 @@ import Box from 'cozy-ui/transpiled/react/Box'
 import CategoriesIcon from 'cozy-ui/transpiled/react/Icons/Categories'
 import PieChartIcon from 'cozy-ui/transpiled/react/Icons/PieChart'
 import SettingIcon from 'cozy-ui/transpiled/react/Icons/Setting'
+import HistoryIcon from 'cozy-ui/transpiled/react/Icons/History'
 import Nav, {
   NavItem,
   NavIcon,
@@ -50,6 +51,12 @@ const Sidebar = () => {
           <NavLink to="/settings">
             <NavIcon icon={SettingIcon} />
             <NavText>{t('nav.settings')}</NavText>
+          </NavLink>
+        </NavItem>
+        <NavItem>
+          <NavLink to="/timeline">
+            <NavIcon icon={HistoryIcon} />
+            <NavText>{t('nav.timeline')}</NavText>
           </NavLink>
         </NavItem>
       </Nav>

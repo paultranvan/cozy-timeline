@@ -9,9 +9,9 @@ const styles = {
     // position: 'relative'
   },
   section: {
-    'margin-bottom': '2rem',
+    marginBottom: '2rem',
     display: 'flex',
-    'flex-wrap': 'wrap'
+    flexWrap: 'wrap'
   },
   container: {}
 }

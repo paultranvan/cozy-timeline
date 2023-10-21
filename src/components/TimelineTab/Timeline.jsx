@@ -27,11 +27,12 @@ import { useI18n } from 'cozy-ui/transpiled/react/providers/I18n'
 import PhotoBoard from './PhotoBoard'
 import PhotoList from './PhotoList'
 import Photos from './Photos'
-import { getPhotoLink } from './helpers'
+import { getPhotoLink, groupByDay } from './helpers'
 import TripProvider from '../Providers/TripProvider'
 import SpinnerOrEmptyContent from '../SpinnerOrEmptyContent'
 import TripMap from '../Trip/TripMap'
 import { TripItem } from '../TripItem'
+import ActivitiesByDay from './ActivitiesByDay'
 
 const styles = {
   map: {
@@ -105,11 +106,13 @@ export const Timeline = () => {
   return (
     <>
       <Titlebar label={t('trips.from') + ' ' + getAccountLabel(account)} />
-      <div>
+        <ActivitiesByDay photos={photos} trips={timeseries} />
+        {/*
         <List>
+
           {timeseries.map((timeserie, index) => (
             <div key={`${timeserie._id}`} className="u-mt-1">
-              <PhotoList photos={[photos?.[index]]} /> {/* TODO */}
+              <PhotoList photos={[photos?.[index]]} />
               <TripProvider timeserie={timeserie}>
                 <TripItem
                   timeserie={timeserie}
@@ -120,9 +123,8 @@ export const Timeline = () => {
                 </div>
               </TripProvider>
             </div>
-          ))}
-        </List>
-      </div>
+          ))} 
+        </List> */}
       {/* {timeseriesQueryLeft.hasMore && (
         <LoadMore
           label={t('loadMore')}

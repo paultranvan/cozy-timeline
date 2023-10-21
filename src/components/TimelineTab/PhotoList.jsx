@@ -6,11 +6,14 @@ import Photo from './Photo'
 
 const styles = {
   wrapper: {
-    position: 'relative'
+    // position: 'relative'
   },
   section: {
-    'margin-bottom': '2rem'
-  }
+    'margin-bottom': '2rem',
+    display: 'flex',
+    'flex-wrap': 'wrap'
+  },
+  container: {}
 }
 
 const photoDimensionsFallback = { width: 1, height: 1 }
@@ -88,27 +91,15 @@ const PhotoList = ({ photos, key, containerWidth = 2100 }) => {
     <div
       key={key}
       data-testid="photo-section"
-      className={classNames(styles['section'])}
       style={{
-        width: `${containerWidth}px`
+        width: `${containerWidth}px`,
+        height: `${layout.containerHeight}px`,
+        ...styles['section']
       }}
     >
-      <div
-        className={styles['wrapper']}
-        // Specify the width & height for making justified layout work.
-        style={{
-          width: `${containerWidth}px`,
-          height: `${layout.containerHeight}px`
-        }}
-      >
-        {photos.map((photo, index) => (
-          <Photo
-            photo={photo}
-            box={layout.boxes[index]}
-            key={photo.id + index}
-          />
-        ))}
-      </div>
+      {photos.map((photo, index) => (
+        <Photo photo={photo} box={layout.boxes[index]} key={photo.id + index} />
+      ))}
     </div>
   )
 }

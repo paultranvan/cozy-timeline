@@ -45,3 +45,26 @@ export const groupByDay = (trips, photos) => {
 
   return grouped
 }
+
+export const computeBoundingBox = timeseries => {
+  let minLat = Infinity,
+    minLng = Infinity,
+    maxLat = -Infinity,
+    maxLng = -Infinity
+
+  timeseries.forEach(timeserie => {
+    timeserie.series[0].features[2].features[0].geometry.coordinates.forEach(
+      coord => {
+        if (coord[0] < minLng) minLng = coord[0]
+        if (coord[0] > maxLng) maxLng = coord[0]
+        if (coord[1] < minLat) minLat = coord[1]
+        if (coord[1] > maxLat) maxLat = coord[1]
+      }
+    )
+  })
+
+  return [
+    [minLat, minLng],
+    [maxLat, maxLng]
+  ]
+}

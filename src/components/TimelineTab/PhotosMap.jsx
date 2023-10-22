@@ -3,13 +3,12 @@ import { useClient } from 'cozy-client'
 import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
 import React from 'react'
-import ReactDOMServer from 'react-dom/server'
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
-import Camera from 'src/assets/icons/camera.svg'
+import { Marker, Popup } from 'react-leaflet'
+// import Camera from 'src/assets/icons/camera.svg'
 
-function svgToBase64Url(svgString) {
-  return 'data:image/svg+xml;base64,' + btoa(svgString)
-}
+// function svgToBase64Url(svgString) {
+//   return 'data:image/svg+xml;base64,' + btoa(svgString)
+// }
 
 // FIXME: importing through cozy-ui, or directly from the svg didn't work...
 const cameraBase64 =
@@ -23,7 +22,7 @@ L.Icon.Default.mergeOptions({
   shadowUrl: require('leaflet/dist/images/marker-shadow.png')
 })
 
-function PhotoMap({ photos }) {
+const PhotosMap = ({ photos }) => {
   const client = useClient()
 
   const cameraIcon = new L.Icon({
@@ -40,14 +39,9 @@ function PhotoMap({ photos }) {
       photo.attributes.metadata?.gps?.lat &&
       photo.attributes.metadata?.gps?.long
   )
-  console.log('photo with gps : ', photosWithGPS?.length)
-
   if (photosWithGPS.length < 1) {
     return null
   }
-  // TODO change it with trip
-  const centerLat = photosWithGPS[0].attributes.metadata.gps.lat
-  const centerLong = photosWithGPS[0].attributes.metadata.gps.long
 
   const getLink = photo => {
     const link = photo.links ? photo.links['small'] : false
@@ -55,29 +49,20 @@ function PhotoMap({ photos }) {
     return src
   }
 
-  return (
-    <MapContainer
-      center={[centerLat, centerLong]}
-      zoom={17}
-      style={{ width: '100%', height: '600px' }}
+  return photosWithGPS.map(photo => (
+    <Marker
+      key={photo._id}
+      position={[
+        photo.attributes.metadata.gps.lat,
+        photo.attributes.metadata.gps.long
+      ]}
+      icon={cameraIcon}
     >
-      <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-      {photosWithGPS.map(photo => (
-        <Marker
-          key={photo._id}
-          position={[
-            photo.attributes.metadata.gps.lat,
-            photo.attributes.metadata.gps.long
-          ]}
-          icon={cameraIcon}
-        >
-          <Popup>
-            <img src={getLink(photo)} alt={photo.name} width="200" />
-          </Popup>
-        </Marker>
-      ))}
-    </MapContainer>
-  )
+      <Popup>
+        <img src={getLink(photo)} alt={photo.name} width="200" />
+      </Popup>
+    </Marker>
+  ))
 }
 
-export default PhotoMap
+export default PhotosMap

@@ -1,12 +1,12 @@
 {
-  "name": "Coach CO2",
-  "slug": "coachco2",
+  "name": "Cozy Timeline",
+  "slug": "timeline",
   "icon": "icon.svg",
   "categories": [],
   "version": "0.11.0",
   "licence": "AGPL-3.0",
   "editor": "Cozy Cloud",
-  "source": "https://github.com/cozy/coachCO2.git@build",
+  "source": "https://github.com/paultranvan/cozy-timeline.git@build",
   "developer": {
     "name": "Cozy Cloud",
     "url": "https://cozy.io"
